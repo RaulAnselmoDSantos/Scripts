@@ -6,10 +6,10 @@ import java.util.*;
 
 public class BackupUserManagerV2 {
 
-    private static final String BACKUP_PATH = "D:\\BACKUPS\\";
-    private static final String LOG_FILE = "C:\\Scripts\\logs\\logfile.txt";
-    private static final String USERS_FILE = "C:\\Scripts\\utilizados\\usuarios_bkp_JAVA.txt";
-    private static final String GROUP_NAME = "F1SFTP2";
+    private static final String BACKUP_PATH = "";
+    private static final String LOG_FILE = "";
+    private static final String USERS_FILE = "";
+    private static final String GROUP_NAME = "";
 
     public static void main(String[] args) {
         System.out.println("Iniciando o script para criação de usuários e diretórios.");
