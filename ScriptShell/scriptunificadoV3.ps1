@@ -1,7 +1,7 @@
-﻿$backupPath = "D:\BACKUPS\"
-$logFile = "C:\Scripts\logs\logfile.txt"
-$usuariosFile = "C:\Scripts\utilizados\usuarios_bkp.txt"
-$grupo = "F1SFTP"
+﻿$backupPath = ""
+$logFile = ""
+$usuariosFile = ""
+$grupo = ""
 
 # Função para registrar logs no arquivo
 function Registrar-Log {
