@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 public class BackupUserManagerInteractive {
 
-    private static final String BACKUP_PATH = "E:\\BACKUPS\\";
-    private static final String LOG_FILE = "C:\\Scripts\\logs\\logfile_interactive.txt";
-    private static final String GROUP_NAME = "F1SFTP2";
+    private static final String BACKUP_PATH = "";
+    private static final String LOG_FILE = "";
+    private static final String GROUP_NAME = "";
 
     public static void main(String[] args) {
         System.out.println("Iniciando o script interativo para criação de usuário e diretório.");
