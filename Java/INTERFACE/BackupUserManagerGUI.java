@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 
 public class BackupUserManagerGUI extends JFrame {
 
-    private static final String BATCH_USERS_FILE = "C:\\Scripts\\utilizados\\usuarios_bkp_JAVA.txt";
+    private static final String BATCH_USERS_FILE = "";
 
     private JTextArea logArea;
     private JTextField userField;
