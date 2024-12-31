@@ -1,8 +1,8 @@
 ﻿# Definir o caminho base para o diretório de backups, o log, e o arquivo de usuários
-$backupPath = "D:\BACKUPS\"
-$logFile = "C:\Users\Raul\Desktop\Configuração Backup\scripts\logs\logfile.txt"
-$usuariosFile = "C:\Users\Raul\Desktop\Configuração Backup\scripts\logs\usuarios_bkp.txt"
-$grupo = "F1SFTP"
+$backupPath = ""
+$logFile = ""
+$usuariosFile = ""
+$grupo = ""
 
 # Parâmetros de usuário e senha opcionais
 param(
