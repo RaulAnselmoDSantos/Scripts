@@ -7,9 +7,9 @@ import java.util.function.Consumer;
 
 public class BackupUserManagerV3 {
 
-    public static final String BACKUP_PATH = "E:\\BACKUPS\\";
-    public static final String LOG_FILE = "C:\\Scripts\\logs\\logfile.txt";
-    public static final String GROUP_NAME = "F1SFTP2";
+    public static final String BACKUP_PATH = " ";
+    public static final String LOG_FILE = " ";
+    public static final String GROUP_NAME = " ";
 
     private static Consumer<String> logConsumer = System.out::println;
 
