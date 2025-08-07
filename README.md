@@ -1,6 +1,7 @@
 # Backup & Automation Scripts
 
-Bem-vindo ao repositório **Backup & Automation Scripts**! Este repositório contém scripts desenvolvidos para automatizar tarefas de backup, gerenciamento de usuários, configuração de dispositivos MikroTik e processamento de logs.
+Bem-vindo ao repositório **Backup & Automation Scripts**! Este repositório contém scripts desenvolvidos para automatizar tarefas de backup, gerenciamento de usuários, configuração de dispositivos MikroTik e processamento de logs. 
+(Maioria pode estar ainda em desenvolvimento e não refletem o resultado final)
 
 ## Estrutura do Repositório
 
@@ -23,7 +24,7 @@ Scripts e configurações para dispositivos MikroTik:
 - `M3uM1kr0t1c.txt`
 - `routeros-7.16.2-mmips.npk`
 - `SCRIPT FAILOVER - ROUTEROS V6.txt`
-- `arquivo_config_CRU.txt`
+- `arquivo_config_CRU.txt` -> **Funcionando atualmente**
 
 Automatização de configurações e recuperação de backups.
 
