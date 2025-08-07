@@ -1,0 +1,252 @@
+# 2025-08-06 11:26:02 by RouterOS 7.19.4
+# software id = 8HBU-T064
+#
+# model = RB750Gr3
+# serial number = HH80A8F3N9T
+/interface bridge
+add name=bridge-lan
+/interface list
+add comment=defconf name=WAN
+add comment=defconf name=LAN
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
+/iot lora servers
+add address=eu1.cloud.thethings.industries name="TTS Cloud (eu1)" protocol=\
+    UDP
+add address=nam1.cloud.thethings.industries name="TTS Cloud (nam1)" protocol=\
+    UDP
+add address=au1.cloud.thethings.industries name="TTS Cloud (au1)" protocol=\
+    UDP
+add address=eu1.cloud.thethings.network name="TTN V3 (eu1)" protocol=UDP
+add address=nam1.cloud.thethings.network name="TTN V3 (nam1)" protocol=UDP
+add address=au1.cloud.thethings.network name="TTN V3 (au1)" protocol=UDP
+/ip pool
+add name=CLIENTE-NAME ranges=192.168.1.50-192.168.1.199
+/ip dhcp-server
+add address-pool=CLIENTE-NAME interface=bridge-lan lease-time=1h name=\
+    REDE-CLIENTE-NAME
+/ppp profile
+add name=PPPoe-Link1 remote-address=208.67.222.222
+add name=PPPoe-Link2 remote-address=208.67.220.220
+/interface bridge port
+add bridge=bridge-lan interface=ether3
+add bridge=bridge-lan interface=ether4
+add bridge=bridge-lan interface=ether5
+/ip firewall connection tracking
+set tcp-established-timeout=1h udp-timeout=10s
+/interface list member
+add interface=ether1 list=WAN
+add interface=ether2 list=WAN
+add interface=*8 list=WAN
+add interface=*9 list=WAN
+add interface=bridge-lan list=LAN
+/ip address
+add address=189.44.86.58/29 comment="===> Link Static - WAN 1 <===" disabled=\
+    yes interface=ether1 network=189.44.86.56
+add address=192.168.1.1/24 comment="===> Rede Principal <===" interface=\
+    bridge-lan network=192.168.1.0
+/ip dhcp-client
+add add-default-route=no comment=wan2 default-route-tables=main interface=\
+    ether2 script=":local IP \"208.67.220.220\"\r\
+    \n:local L \"==> wan 2 - link <== \"\r\
+    \n:local R1 \"==> wan 2 - recursive route <==\" \r\
+    \n;local D \"2\" \r\
+    \n:local GT \$\"gateway-address\"\r\
+    \n:local INT \$\"interface\"\r\
+    \n{\r\
+    \n    :local count [/ip route print count-only where comment=\"\$L\"]\r\
+    \n   :if (\$bound=1 ) do={\r\
+    \n        :if (\$count = 0) do={\r\
+    \n             /ip route add ds=\$IP gateway=\"\$GT%\$INT\" scope=10 comme\
+    nt=\"\$L\"\r\
+    \n              /ip route add ds=0.0.0.0/0 gateway=\$IP distance=\$D  targ\
+    et-scope=11 comment=\"\$R1\"\r\
+    \n                   } else={\r\
+    \n        :if (\$count=1) do={\r\
+    \n            :local test [/ip route find where comment=\"\$L\"]\r\
+    \n            :if ([/ip route get \$test gateway] != \"\$GT%\$INT\") do={\
+    \r\
+    \n                /ip route set \$test gateway=\"\$GT%\$INT\"\r\
+    \n            }\r\
+    \n        } else={\r\
+    \n            :error \"multiple routes found\"\r\
+    \n        }\r\
+    \n      }\r\
+    \n  } else={\r\
+    \n      /ip route remove [find comment=\"\$L\"]\r\
+    \n      /ip route remove [find comment=\"\$R1\"]    \r\
+    \n    }\r\
+    \n}" use-peer-ntp=no
+# Interface not active
+add add-default-route=no comment=wan1 default-route-tables=main interface=\
+    ether1 script=":local IP \"208.67.222.222\"\r\
+    \n:local L \"==> wan 1 - link <==\"\r\
+    \n:local R1 \"==> wan 1 - recursive route <==\" \r\
+    \n;local D 1 \r\
+    \n:local GT \$\"gateway-address\"\r\
+    \n:local INT \$\"interface\"\r\
+    \n{\r\
+    \n    :local count [/ip route print count-only where comment=\"\$L\"]\r\
+    \n   :if (\$bound=1 ) do={\r\
+    \n        :if (\$count = 0) do={\r\
+    \n             /ip route add ds=\$IP gateway=\"\$GT%\$INT\" scope=10 comme\
+    nt=\"\$L\"\r\
+    \n              /ip route add ds=0.0.0.0/0 gateway=\$IP distance=\$D  targ\
+    et-scope=11 comment=\"\$R1\"\r\
+    \n                   } else={\r\
+    \n        :if ([\$count]=1) do={\r\
+    \n            :local test [/ip route find where comment=\"\$L\"]\r\
+    \n            :if ([/ip route get \$test gateway] != \"\$GT%\$INT\") do={\
+    \r\
+    \n                /ip route set \$test gateway=\"\$GT%\$INT\"\r\
+    \n            }\r\
+    \n        } else={\r\
+    \n            :error \"multiple routes found\"\r\
+    \n        }\r\
+    \n      }\r\
+    \n  } else={\r\
+    \n      /ip route remove [find comment=\"\$L\"]\r\
+    \n      /ip route remove [find comment=\"\$R1\"]    \r\
+    \n    }\r\
+    \n}" use-peer-ntp=no
+/ip dhcp-server lease
+add address=192.168.1.199 client-id=1:64:1c:67:dd:45:af comment=\
+    "=====>  NOTEBOOK F1 <===== " disabled=yes mac-address=64:1C:67:DD:45:AF \
+    server=REDE-CLIENTE-NAME
+add address=192.168.1.220 comment="=====> SERVIDOR-ANTIGO <=====  " disabled=\
+    yes mac-address=5C:F9:DD:EB:2E:AF server=REDE-CLIENTE-NAME
+add address=192.168.1.249 comment="=====> DVR 1 <=====" disabled=yes \
+    mac-address=00:1A:3F:96:75:CA server=REDE-CLIENTE-NAME
+add address=192.168.1.243 comment="=====> DVR 2 <=====" disabled=yes \
+    mac-address=58:10:8C:6F:4B:8C server=REDE-CLIENTE-NAME
+add address=192.168.1.239 comment="=====> DVR 3 <===== " disabled=yes \
+    mac-address=18:0D:2C:FF:06:71 server=REDE-CLIENTE-NAME
+add address=192.168.1.248 comment="=====> DVR 4 <=====" disabled=yes \
+    mac-address=00:1A:3F:83:7A:87 server=REDE-CLIENTE-NAME
+add address=192.168.1.178 comment="=====> PABX / SERV BACKUP <=====  " \
+    disabled=yes mac-address=00:23:AE:B7:B5:A5 server=REDE-CLIENTE-NAME
+/ip dhcp-server network
+add address=192.168.1.0/24 dns-server=192.168.1.1,8.8.8.8,8.8.4.4 gateway=\
+    192.168.1.1
+/ip dns
+set allow-remote-requests=yes servers=8.8.8.8,8.8.4.4
+/ip firewall filter
+add action=accept chain=input comment=\
+    "=====> accept established,related,untracked <=====" connection-state=\
+    established,related,untracked
+add action=drop chain=input comment="=====> drop invalid <=====" \
+    connection-state=invalid
+add action=add-src-to-address-list address-list=port-scanners \
+    address-list-timeout=1w chain=input comment=\
+    "=====> drop specific Port <=====" dst-port=21-25,1194 in-interface-list=\
+    WAN protocol=tcp
+add action=add-src-to-address-list address-list=Ataque_SynFlood \
+    address-list-timeout=1w chain=input comment=\
+    "=====> Detecta Ataque Syn Flood <=====" connection-limit=30,32 \
+    in-interface-list=WAN protocol=tcp tcp-flags=syn
+add action=tarpit chain=input protocol=tcp src-address-list=Ataque_SynFlood
+add action=add-src-to-address-list address-list=port-scanners \
+    address-list-timeout=1w chain=input comment="=====> Port Scan TCP <=====" \
+    in-interface-list=WAN protocol=tcp psd=21,3s,3,1
+add action=add-src-to-address-list address-list=port-scanners \
+    address-list-timeout=1w chain=input comment="=====>  PortScan UDP <=====" \
+    in-interface-list=WAN protocol=udp psd=21,3s,3,1
+add action=jump chain=input comment="=====> Controle de ICMP <=====   " \
+    in-interface-list=WAN jump-target=ICMP protocol=icmp
+add action=drop chain=input comment="=====> DROP GERAL - WAN <=====" \
+    in-interface-list=WAN log-prefix=DROP-GERAL
+add action=accept chain=ICMP comment="=====> Echo request - Avoiding Ping Floo\
+    d, adjust the limit as needed <=====" icmp-options=8:0 limit=100,5:packet \
+    protocol=icmp
+add action=accept chain=ICMP comment="=====> Echo reply <=====" icmp-options=\
+    0:0 limit=100,5:packet protocol=icmp
+add action=accept chain=ICMP comment="=====> Time Exceeded <=====" \
+    icmp-options=11:0 limit=100,5:packet protocol=icmp
+add action=accept chain=ICMP comment="=====> Destination unreachable <=====" \
+    icmp-options=3:0-1 limit=100,5:packet protocol=icmp
+add action=accept chain=ICMP comment="=====> PMTUD <=====" icmp-options=3:4 \
+    limit=100,5:packet protocol=icmp
+add action=drop chain=ICMP comment="=====> Drop to the other ICMPs <=====" \
+    protocol=icmp
+add action=fasttrack-connection chain=forward comment=\
+    "=====> FastTrack - Desativar se Usar Queues <=====" connection-state=\
+    established,related hw-offload=yes
+add action=accept chain=forward comment=\
+    "=====> FastTrack accept - Desativar se Usar Queues <=====" \
+    connection-state=established,related,untracked
+add action=accept chain=forward comment="=====> Permitir DVRs <=====" \
+    connection-nat-state=dstnat disabled=yes dst-port=37243,37248,37239,37249 \
+    in-interface-list=WAN log-prefix="DVR`s-Connection" protocol=tcp
+add action=accept chain=forward comment="=====> Permitir VoIP SIP <=====" \
+    connection-nat-state=dstnat disabled=yes dst-port=5060 in-interface-list=\
+    WAN protocol=udp
+add action=accept chain=forward comment="=====> Permitir VoIP RTP <=====" \
+    connection-nat-state=dstnat disabled=yes dst-port=10000-20000 \
+    in-interface-list=WAN protocol=udp
+add action=accept chain=forward comment="=====> Permitir RDP <=====" \
+    connection-nat-state=dstnat disabled=yes dst-port=5555 in-interface-list=\
+    WAN protocol=tcp
+add action=drop chain=forward comment="=====> drop invalid <=====" \
+    connection-state=invalid
+add action=drop chain=forward comment=\
+    "=====> drop all from WAN not DSTNATed <=====" connection-nat-state=\
+    !dstnat connection-state=new in-interface-list=WAN
+/ip firewall nat
+add action=masquerade chain=srcnat comment="=====> NAT <=====" ipsec-policy=\
+    out,none out-interface-list=WAN
+add action=dst-nat chain=dstnat comment="=====> DVR1-37243<=====" disabled=\
+    yes dst-address-type=local dst-port=37243 in-interface-list=WAN protocol=\
+    tcp to-addresses=192.168.1.243 to-ports=37243
+add action=dst-nat chain=dstnat comment="=====> DVR2-37248 <=====" disabled=\
+    yes dst-address-type=local dst-port=37248 in-interface-list=WAN protocol=\
+    tcp to-addresses=192.168.1.248 to-ports=37248
+add action=dst-nat chain=dstnat comment="=====> DVR3-37239 <=====" disabled=\
+    yes dst-address-type=local dst-port=37239 in-interface-list=WAN protocol=\
+    tcp to-addresses=192.168.1.239 to-ports=37239
+add action=dst-nat chain=dstnat comment="=====> DVR4-37249 <=====" disabled=\
+    yes dst-address-type=local dst-port=37249 in-interface-list=WAN protocol=\
+    tcp to-addresses=192.168.1.249 to-ports=37249
+add action=dst-nat chain=dstnat comment="=====> VoIP-SIP-5060 <=====" \
+    disabled=yes dst-address-type=local dst-port=5060 in-interface-list=WAN \
+    protocol=udp to-addresses=192.168.1.140 to-ports=5060
+add action=dst-nat chain=dstnat comment=\
+    "=====> VoIP-RTP-Faixa-10000-20000 <=====" disabled=yes dst-address-type=\
+    local dst-port=10000-20000 in-interface-list=WAN protocol=udp \
+    to-addresses=192.168.1.140
+add action=dst-nat chain=dstnat comment="=====> RDP-5555 <=====" disabled=yes \
+    dst-address-type=local dst-port=5555 in-interface-list=WAN protocol=tcp \
+    to-addresses=192.168.1.119 to-ports=5555
+/ip firewall raw
+add action=drop chain=prerouting comment="=====> PortScan <=====" \
+    in-interface-list=WAN src-address-list=port-scanners
+/ip route
+add comment="==> wan 1 - Link - static <==" disabled=yes distance=1 \
+    dst-address=208.67.222.222/32 gateway=189.44.86.57 pref-src="" \
+    routing-table=main scope=10 suppress-hw-offload=no target-scope=10
+add comment="==> wan 1 - recursive route - static <==" disabled=no distance=1 \
+    dst-address=0.0.0.0/0 gateway=208.67.222.222 routing-table=main scope=30 \
+    suppress-hw-offload=no target-scope=11
+add comment="==> wan 2 - link <== " dst-address=208.67.220.220 gateway=\
+    192.168.0.1%ether2 scope=10
+add comment="==> wan 2 - recursive route <==" distance=2 dst-address=\
+    0.0.0.0/0 gateway=208.67.220.220 target-scope=11
+/ip service
+set ftp disabled=yes
+set ssh disabled=yes
+set telnet disabled=yes
+set www disabled=yes
+set api disabled=yes
+set api-ssl disabled=yes
+/system clock
+set time-zone-autodetect=no time-zone-name=America/Sao_Paulo
+/system gps
+set set-system-time=yes
+/system note
+set show-at-login=no
+/system ntp client
+set enabled=yes
+/system ntp client servers
+add address=a.ntp.br
+add address=b.ntp.br
+/system routerboard settings
+set auto-upgrade=yes
