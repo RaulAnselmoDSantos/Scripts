@@ -23,6 +23,7 @@ Scripts e configurações para dispositivos MikroTik:
 - `M3uM1kr0t1c.txt`
 - `routeros-7.16.2-mmips.npk`
 - `SCRIPT FAILOVER - ROUTEROS V6.txt`
+- `arquivo_config_CRU.txt`
 
 Automatização de configurações e recuperação de backups.
 
@@ -34,8 +35,12 @@ Scripts para automação e processamento de logs:
   - `scriptUnificadoV3.ps1`
   - `scriptUnificadoV4.ps1`
   - `scriptUnificadoV5 DISCO E.ps1`
+  - `rodar_monitoramento.bat` <-> 'Usado no Task scheduling' 
 - **Python:**
   - `processa_logs_firewall.py`
+  - `registra_tamanho_bkp_users.py` 
+  - `tamanho_bkp_users.py` 
+  - `monitoramento_backup.py` 
 
 Scripts focados em tarefas de automação e processamento, incluindo análise de logs de firewall.
 
@@ -48,7 +53,7 @@ Certifique-se de que você possui os seguintes softwares instalados:
 - **Java Development Kit (JDK)** para scripts Java.
 - **Python 3.8+** para executar o script de logs.
 - **Powershell** para os scripts do Windows.
-- **RouterOS** compatível para os scripts MikroTik.
+- **RouterOS** compatível para os scripts MikroTik RouterOS v7.18 e v7.19.
 
 ---
 
@@ -59,8 +64,9 @@ Certifique-se de que você possui os seguintes softwares instalados:
 2. Execute o programa principal (exemplo: `java BackupUserManager`).
 
 ### Scripts MikroTik
-1. Faça upload dos arquivos `.backup` ou `.rsc` para o dispositivo MikroTik.
-2. Execute os comandos ou scripts via terminal ou interface gráfica.
+1. Faça o Update da sua versão do RouterOS para uma das versões v7.18 ou v7.19, que foram as utilizadas na criação desses scripts.
+2. Faça upload dos arquivos `.backup` ou `.rsc` para o dispositivo MikroTik.
+3. Execute os comandos ou scripts via terminal ou interface gráfica.
 
 ### Scripts Shell e Python
 1. Certifique-se de que possui as permissões adequadas para execução.
