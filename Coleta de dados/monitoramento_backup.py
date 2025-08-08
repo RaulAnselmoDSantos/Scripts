@@ -7,12 +7,12 @@ import datetime
 import sqlite3
 from pathlib import Path
 
-# === CONFIGURAÇÃO ===
+# === CONFIGURAï¿½ï¿½O ===
 BACKUP_ROOT = Path(r"E:\BACKUPS")                               # raiz das pastas de cliente
-CSV_HIST    = Path(r"C:\monitor\backup_sizes_history.csv")      # CSV de histórico
+CSV_HIST    = Path(r"C:\monitor\backup_sizes_history.csv")      # CSV de histï¿½rico
 DB_PATH     = Path(r"C:\monitor\backup_status.db")              # banco de dados SQLite
 
-# === ETAPA 1: Verificação de tamanho das pastas e escrita no CSV ===
+# === ETAPA 1: Verificacao de tamanho das pastas e escrita no CSV ===
 
 now = datetime.datetime.now().isoformat(timespec="seconds")
 first_time = not CSV_HIST.exists()
@@ -51,7 +51,7 @@ conn = sqlite3.connect(DB_PATH)
 conn.execute("PRAGMA journal_mode=WAL;")
 cur = conn.cursor()
 
-# 1) Criação das tabelas
+# 1) Criacao das tabelas
 cur.executescript("""
 CREATE TABLE IF NOT EXISTS history_backups (
   id             INTEGER PRIMARY KEY AUTOINCREMENT,
